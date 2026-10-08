@@ -9,6 +9,22 @@ class KeyboardTheme {
   final Color shadowColor;
   final Brightness brightness;
 
+  /// Highlight color for Enter and engaged Shift / Caps keys (desktop mode).
+  /// Falls back to the app's `ColorScheme.primary` when null.
+  final Color? accentColor;
+
+  /// Key fill while hovered with a mouse (desktop mode).
+  /// Derived from [keyColor] / [altKeyColor] when null.
+  final Color? hoverColor;
+
+  /// Thin border drawn around each keycap (desktop mode).
+  /// Derived from [textColor] when null.
+  final Color? keyBorderColor;
+
+  /// The darker "lip" under each keycap that gives it depth (desktop mode).
+  /// Derived from the key fill when null.
+  final Color? keyEdgeColor;
+
   const KeyboardTheme({
     required this.backgroundColor,
     required this.keyColor,
@@ -16,7 +32,38 @@ class KeyboardTheme {
     required this.textColor,
     required this.shadowColor,
     required this.brightness,
+    this.accentColor,
+    this.hoverColor,
+    this.keyBorderColor,
+    this.keyEdgeColor,
   });
+
+  /// Creates a copy of this theme with the given fields replaced.
+  KeyboardTheme copyWith({
+    Color? backgroundColor,
+    Color? keyColor,
+    Color? altKeyColor,
+    Color? textColor,
+    Color? shadowColor,
+    Brightness? brightness,
+    Color? accentColor,
+    Color? hoverColor,
+    Color? keyBorderColor,
+    Color? keyEdgeColor,
+  }) {
+    return KeyboardTheme(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      keyColor: keyColor ?? this.keyColor,
+      altKeyColor: altKeyColor ?? this.altKeyColor,
+      textColor: textColor ?? this.textColor,
+      shadowColor: shadowColor ?? this.shadowColor,
+      brightness: brightness ?? this.brightness,
+      accentColor: accentColor ?? this.accentColor,
+      hoverColor: hoverColor ?? this.hoverColor,
+      keyBorderColor: keyBorderColor ?? this.keyBorderColor,
+      keyEdgeColor: keyEdgeColor ?? this.keyEdgeColor,
+    );
+  }
 
   /// A modern light theme resembling iOS/Gboard light mode.
   static const KeyboardTheme light = KeyboardTheme(

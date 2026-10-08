@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 24.0, vertical: 32.0),
                   child: Container(
-                    constraints: const BoxConstraints(maxWidth: 600),
+                    constraints: const BoxConstraints(maxWidth: 800),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -200,6 +200,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: _isKeyboardVisible
                   ? ThamizhiKeyboard(
                       controller: _textController,
+                      // Desktop / wide web windows get the full-size keyboard.
+                      fontFamily: GoogleFonts.notoSansTamil().fontFamily,
                     )
                   : const SizedBox.shrink(),
             ),

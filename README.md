@@ -15,9 +15,13 @@ A highly professional, production-grade, and responsive Tamil keyboard SDK for F
 | :---: | :---: | :---: |
 | <img src="https://github.com/neelakandanz/thamizhi_keyboard/blob/main/out/Screen2.jpeg?raw=true" width="250" /> | <img src="https://github.com/neelakandanz/thamizhi_keyboard/blob/main/out/Screen3.jpeg?raw=true" width="250" /> | <img src="https://github.com/neelakandanz/thamizhi_keyboard/blob/main/out/Screen4.jpeg?raw=true" width="250" /> |
 
-| Desktop / Web / Tablet Responsive Layout |
+| Desktop / Web — full-size keyboard (dark) |
 | :---: |
-| <img src="https://github.com/neelakandanz/thamizhi_keyboard/blob/main/out/Screen1.PNG?raw=true" width="600" /> |
+| <img src="https://github.com/neelakandanz/thamizhi_keyboard/blob/main/out/Screen5.png?raw=true" width="720" /> |
+
+| Desktop / Web — light theme, Shift engaged |
+| :---: |
+| <img src="https://github.com/neelakandanz/thamizhi_keyboard/blob/main/out/Screen6.png?raw=true" width="720" /> |
 
 ---
 
@@ -25,6 +29,7 @@ A highly professional, production-grade, and responsive Tamil keyboard SDK for F
 
 - **Native-Like UI:** Crafted with proper spacing, realistic touch highlights, drop shadows, and polished boundaries to replicate top-tier system keyboards.
 - **Ultra-Fast Performance:** Built using highly optimized `RepaintBoundary` wrappers and a minimal `ValueNotifier` state layer. Touch ripples do not rebuild your entire screen.
+- **Full-Size Desktop Keyboard:** On Windows, macOS, Linux and wide web windows the keyboard automatically switches to a large, physical-keyboard style layout with hover and press animations, Tab / Enter / Shift / Caps / arrow keys, and key-repeat on Backspace.
 - **Fluid Responsiveness:** Adaptive layouts that gracefully expand or constrain themselves automatically if running on an iPhone, iPad, or Desktop Web Browser using core `BoxConstraints`.
 - **Pure Dart Tamil Engine:** Complex localized Tamil consonant/vowel compositions (e.g., `க் + ஆ = கா`) are completely decoupled into the abstract `TamilEngine` API, laying foundations for extensibility hooks (prediction/auto-correct engines).
 - **Comprehensive Theming:** Features `light` and `dark` mode defaults via `KeyboardTheme`, switching interactively alongside your app's global state.
@@ -165,6 +170,43 @@ ThamizhiKeyboard(
     textColor: Colors.white,
     shadowColor: Colors.black45,
     brightness: Brightness.dark,
+  ),
+)
+```
+
+### Desktop mode
+
+`ThamizhiKeyboard` picks its style with the `mode` parameter:
+
+| Mode | Behaviour |
+| --- | --- |
+| `KeyboardMode.auto` (default) | Full-size desktop keyboard on Windows / macOS / Linux / web when at least 840 px wide; compact keyboard everywhere else. |
+| `KeyboardMode.compact` | Always the original mobile-style keyboard. |
+| `KeyboardMode.desktop` | Always the full-size desktop keyboard. |
+
+```dart
+ThamizhiKeyboard(
+  controller: _textController,
+  mode: KeyboardMode.auto,          // default
+  desktopMaxWidth: 1280,            // keyboard stops growing past this width
+  fontFamily: 'Noto Sans Tamil',    // optional font for desktop key labels
+)
+```
+
+The desktop Tamil layout groups letters phonetically — vowels, then வல்லினம் / மெல்லினம், then இடையினம் and the Grantha letters (ஜ், ஷ், ஸ், ஹ், ஸ்ரீ). Shift switches the number row to Tamil numerals (௧–௦).
+
+Typing, Backspace and the arrow keys work at the cursor position, so clicking inside the text field with a mouse and typing inserts text there.
+
+The desktop look can be tuned with optional `KeyboardTheme` fields — all of them fall back to sensible defaults:
+
+```dart
+ThamizhiKeyboard(
+  controller: _textController,
+  theme: KeyboardTheme.dark.copyWith(
+    accentColor: const Color(0xFF6B4EE6), // Enter + active Shift/Caps (defaults to ColorScheme.primary)
+    hoverColor: const Color(0xFF555555),  // mouse hover fill
+    keyBorderColor: Colors.white10,       // keycap outline
+    keyEdgeColor: Colors.black54,         // 3D keycap lip
   ),
 )
 ```

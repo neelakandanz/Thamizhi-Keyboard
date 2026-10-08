@@ -5,6 +5,8 @@ export 'src/state/keyboard_controller.dart';
 export 'src/state/keyboard_state.dart';
 export 'src/ui/components/key_widget.dart';
 export 'src/ui/keyboard_layout.dart';
+export 'src/ui/keyboard_mode.dart'
+    show KeyboardMode, kDesktopKeyboardBreakpoint;
 export 'src/ui/theme/keyboard_theme.dart';
 
 // Note: The previous monolithic UI components (`VesaipalagaiVadivam`, `Vesaipalagai`, etc.) 

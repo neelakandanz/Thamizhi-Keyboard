@@ -4,6 +4,23 @@
 > physical-keyboard-style** Tamil keyboard, **without breaking** any existing
 > public API, mobile behaviour, or tests.
 
+## Status (2026-10-08)
+
+Phases 1–3 and the docs/release items are **done** on branch
+`feat/desktop-keyboard-ui` (v0.2.0). Phase 4 (physical keyboard bridge) is
+deferred as planned. Decisions taken: `auto` default, tablets stay compact,
+phonetic Tamil layout.
+
+Where the build differs from this plan:
+- Desktop layouts are plain row-builder functions
+  (`buildDesktopTamilRows` …) in `lib/src/ui/desktop/layouts/`, not widgets;
+  `DesktopKeyActions` builds the key specs and `DesktopPalette` resolves colors.
+- Tamil row 1 types **1–0** by default and **௧–௦** with Shift (Backspace is 3u);
+  row 3 starts with a `ஸ்ரீ` key (1.25u) instead of Caps.
+- Bottom row: language switch, `123`, space (9u), ← →. No hide key.
+- Keys fire on pointer down (like a real keyboard); Backspace and arrows repeat
+  while held. Right-click is ignored.
+
 ---
 
 ## 1. Current state (what we have today)

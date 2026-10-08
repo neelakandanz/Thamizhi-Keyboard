@@ -1,3 +1,14 @@
+## 0.2.0
+
+### Full-size desktop keyboard
+* 🖥️ **Desktop mode**: New `KeyboardMode` (`auto` / `compact` / `desktop`). On Windows, macOS, Linux and wide web windows the keyboard now renders as a large, physical-keyboard style layout that scales with the window (up to `desktopMaxWidth`, default 1280 px).
+* ⌨️ **Desktop keys**: Hover and press animations, mouse cursor, one-shot Shift, Caps Lock, Tab, Enter, ← / → arrows, and key-repeat for Backspace and arrows.
+* 🔤 **Tamil desktop layout**: Phonetically grouped rows, adds `ஒ`, Grantha letters (`ஜ் ஷ் ஸ் ஹ் ஸ்ரீ`) and Tamil numerals on Shift.
+* ✍️ **Cursor-aware editing**: `KeyboardController` now types and deletes at the cursor / selection. New `onEnter()`, `onTab()` and `moveCursor()` methods. Behaviour is unchanged when there is no cursor (text is appended as before).
+* 🎨 **Theme**: Optional `accentColor`, `hoverColor`, `keyBorderColor`, `keyEdgeColor` and a `copyWith` on `KeyboardTheme`.
+* 🐞 `ThamizhiKeyboard` now picks up a replaced `TextEditingController`.
+* ✅ Fully backward compatible: existing constructors, `KeyWidget` and the mobile layouts are unchanged; use `mode: KeyboardMode.compact` to keep the previous look on desktop.
+
 ## 0.1.1
 
 ### Layout Enhancements & Documentation

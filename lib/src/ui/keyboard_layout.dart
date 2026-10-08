@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:thamizhi_keyboard/src/state/keyboard_controller.dart';
 import 'package:thamizhi_keyboard/src/state/keyboard_state.dart';
+import 'package:thamizhi_keyboard/src/ui/desktop/desktop_keyboard_view.dart';
+import 'package:thamizhi_keyboard/src/ui/keyboard_mode.dart';
 import 'package:thamizhi_keyboard/src/ui/layouts/english_layout.dart';
 import 'package:thamizhi_keyboard/src/ui/layouts/number_layout.dart';
 import 'package:thamizhi_keyboard/src/ui/layouts/tamil_layout.dart';
@@ -12,10 +15,25 @@ class ThamizhiKeyboard extends StatefulWidget {
   final TextEditingController controller;
   final KeyboardTheme? theme;
 
+  /// Which style to render. [KeyboardMode.auto] (the default) uses the
+  /// full-size desktop keyboard on wide desktop / web windows and the compact
+  /// keyboard everywhere else.
+  final KeyboardMode mode;
+
+  /// Maximum width of the desktop keyboard. The compact keyboard keeps its
+  /// 600 px limit.
+  final double desktopMaxWidth;
+
+  /// Font family for key labels in desktop mode, e.g. `'Noto Sans Tamil'`.
+  final String? fontFamily;
+
   const ThamizhiKeyboard({
     super.key,
     required this.controller,
     this.theme,
+    this.mode = KeyboardMode.auto,
+    this.desktopMaxWidth = 1280,
+    this.fontFamily,
   });
 
   @override
@@ -29,6 +47,19 @@ class _ThamizhiKeyboardState extends State<ThamizhiKeyboard> {
   void initState() {
     super.initState();
     _keyboardController = KeyboardController(textController: widget.controller);
+  }
+
+  @override
+  void didUpdateWidget(ThamizhiKeyboard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      final previousState = _keyboardController.value;
+      _keyboardController.dispose();
+      _keyboardController = KeyboardController(
+        textController: widget.controller,
+        initialState: previousState,
+      );
+    }
   }
 
   @override
@@ -49,6 +80,22 @@ class _ThamizhiKeyboardState extends State<ThamizhiKeyboard> {
       theme: theme,
       child: LayoutBuilder(
         builder: (context, constraints) {
+          final useDesktop = shouldUseDesktopLayout(
+            mode: widget.mode,
+            availableWidth: constraints.hasBoundedWidth
+                ? constraints.maxWidth
+                : MediaQuery.sizeOf(context).width,
+            platform: Theme.of(context).platform,
+            isWeb: kIsWeb,
+          );
+          if (useDesktop) {
+            return DesktopKeyboardView(
+              controller: _keyboardController,
+              maxWidth: widget.desktopMaxWidth,
+              fontFamily: widget.fontFamily,
+            );
+          }
+
           // Adjust layout width for larger screens (tablets, web, desktop)
           double keyboardWidth = constraints.maxWidth;
           if (keyboardWidth > 600) {

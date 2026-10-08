@@ -30,3 +30,6 @@ migrate_working_dir/
 build/
 
 out/
+
+# Planning notes
+DESKTOP_UI_PLAN.md
